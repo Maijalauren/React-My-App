@@ -1,6 +1,8 @@
 import './App.css'
 import React, {useState} from 'react'
 
+//props  voi olla props tai jos tietää nimen, niin esim. tässä huomio. 
+//Jos on useita propseja, menee esim. huomio,
 const Laskuri = (props) => {
 
     //Komponentin tilan määritys
