@@ -2,6 +2,17 @@
   text-align: center;
 }
 
+.customerDetails {
+
+  background-color: rgb(99, 30, 210);
+  border-style: solid;
+  width: 40%;
+  margin: auto;
+  margin-bottom: 50px;
+  border-radius: 30px;
+  padding-left: 10%;
+}
+
 .posts {
 
   margin: auto;
