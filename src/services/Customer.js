@@ -9,8 +9,14 @@ const getAll = () => {
     }
 
 const create = newCustomer => {
+    return axios.post(baseUrl, newCustomer)
+
+}
+
+    const remove = id => {
+        return axios.delete(`${baseUrl}/${id}`)
 
 return axios.post(baseUrl, newCustomer)
 
 }
-export default { getAll, create }
+export default { getAll, create, remove }

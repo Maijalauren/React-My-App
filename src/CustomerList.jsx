@@ -6,7 +6,7 @@ import CustomerAdd from './CustomersAdd'
 
 //props  voi olla props tai jos tietää nimen, niin esim. tässä huomio. 
 //Jos on useita propseja, menee esim. huomio,
-const CustomerList = () => {
+const CustomerList = ({setIsPositive, setShowMessage, setMessage }) => {
 
     //Komponentin tilan määritys
   //state hook, ja useEffect hook
@@ -33,7 +33,9 @@ useEffect(() => {
 
                  {!lisäystila &&<button className="nappi" onClick={() => setlisäystila(true)}>Add new</button>}</h1>
 
-                 {lisäystila && <CustomerAdd setlisäystila={setlisäystila} />}
+                 {lisäystila && <CustomerAdd setlisäystila={setlisäystila}
+                 setIsPositive={setIsPositive} setMessage={setMessage} setShowMessage={setShowMessage}
+                 />}
 
    {
     showCustomers && customers && customers.map(c => (

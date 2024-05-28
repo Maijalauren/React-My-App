@@ -1,11 +1,12 @@
 import './App.css'
 import React, {useState} from 'react'
 import CustomerService from './services/Customer'
+import Message from './Message'
 
 
 //props  voi olla props tai jos tietää nimen, niin esim. tässä huomio. 
 //Jos on useita propseja, menee esim. huomio,
-const CustomerAdd = (setLisäystila) => {
+const CustomerAdd = ({setlisäystila, setIsPositive, setShowMessage, setMessage}) => {
 
     //komponentin tilan määritys
 
@@ -39,13 +40,27 @@ const [newFax, setNewFax] = useState('')
     CustomerService.create(newCustomer)
     .then(response => {
         if (response.status === 200) {
-         alert("Added new Customer: " + newCustomer.companyName)
-         setLisäystila(false)
+         setMessage("Added new Customer: " + newCustomer.companyName)
+         setIsPositive(true)
+         setShowMessage(true)
+
+         setTimeout(() => {
+            setShowMessage(false)
+           }, 5000)
+
+         setlisäystila(false)
+        
      }   
   
         })
         .catch(error => {
-          alert("Error")
+            setMessage(error)
+            setIsPositive(false)
+            setShowMessage(true)
+    
+            setTimeout(() => {
+              setShowMessage(false)
+             }, 6000)
          
         })
       }
@@ -102,7 +117,7 @@ const [newFax, setNewFax] = useState('')
          
 
         <input type='submit' value='save' />
-        <input type='button' value='back' onClick={() => setLisäystila(false)} />
+        <input type='button' value='back' onClick={() => setlisäystila(false)} />
 
     </form>
 

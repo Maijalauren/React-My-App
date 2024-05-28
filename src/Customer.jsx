@@ -1,5 +1,6 @@
 import './App.css'
 import React, {useState} from 'react'
+import CustomerService from './services/Customer'
 
 //props  voi olla props tai jos tietää nimen, niin esim. tässä huomio. 
 //Jos on useita propseja, menee esim. huomio,
@@ -9,20 +10,27 @@ const Customer = ({customer}) => {
  
     const [showDetails, setshowDetails] = useState(false)
 
+    const deleteCustomer = (customer) =>{
+        if(window.confirm(`Remove Customer ${customer.companyName}`))
+
+        CustomerService.remove(customer.customerId)
+        .then()
+    }
+
 
   return (
     <div className='customerDiv'>
 
-   <h4 onMouseEnter={() => setshowDetails(true)}
-     onMouseLeave={() => setshowDetails(false)}
-     >
-        {customer.companyName}
-        
+   <h4 onClick={() => setshowDetails(!showDetails)}>
+        {customer.companyName}       
     </h4>
 
    {showDetails && <div className="customerDetails">
 
    <h3>{customer.companyName}</h3>
+
+   <button onClick={() => deleteCustomer(customer)}>Delete</button>  
+   <button>Edit</button> 
 
                 <table>
                     <thead>
