@@ -2,6 +2,7 @@ import './App.css'
 import React, {useState, useEffect} from 'react'
 import CustomerService from './services/Customer'
 import Customer from './Customer'
+import CustomerAdd from './CustomersAdd'
 
 //props  voi olla props tai jos tietää nimen, niin esim. tässä huomio. 
 //Jos on useita propseja, menee esim. huomio,
@@ -11,6 +12,7 @@ const CustomerList = () => {
   //state hook, ja useEffect hook
     const [customers, setCustomers] = useState([])
     const [showCustomers, setshowCustomers] = useState(false)
+    const [lisäystila, setlisäystila] = useState(false)
 
 
 useEffect(() => {
@@ -26,7 +28,12 @@ useEffect(() => {
   return (
 <>
 
-    <h2 onClick={() => setshowCustomers(!showCustomers)}>Customers</h2>
+    <h1><nobr style={{ cursor: 'pointer' }}
+                onClick={() => setshowCustomers(!showCustomers)}>Customers</nobr>
+
+                 {!lisäystila &&<button className="nappi" onClick={() => setlisäystila(true)}>Add new</button>}</h1>
+
+                 {lisäystila && <CustomerAdd setlisäystila={setlisäystila} />}
 
    {
     showCustomers && customers && customers.map(c => (

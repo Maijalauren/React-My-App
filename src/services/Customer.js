@@ -1,4 +1,4 @@
-import Axios from "axios"
+import axios from "axios"
 
 
 const baseUrl = "https://localhost:7030/api/Customers"
@@ -8,8 +8,9 @@ const getAll = () => {
     return request.then(response => response.data) 
     }
 
+const create = newCustomer => {
 
+return axios.post(baseUrl, newCustomer)
 
-
-
-export default {getAll}
+}
+export default { getAll, create }

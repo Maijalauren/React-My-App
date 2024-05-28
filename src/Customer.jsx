@@ -14,13 +14,16 @@ const Customer = ({customer}) => {
     <div className='customerDiv'>
 
    <h4 onMouseEnter={() => setshowDetails(true)}
-     onMouseLeave={() => setShowDetails(false)}
+     onMouseLeave={() => setshowDetails(false)}
      >
         {customer.companyName}
         
     </h4>
 
    {showDetails && <div className="customerDetails">
+
+   <h3>{customer.companyName}</h3>
+
                 <table>
                     <thead>
                         <tr>
