@@ -6,27 +6,28 @@ import Message from './Message'
 
 //props  voi olla props tai jos tietää nimen, niin esim. tässä huomio. 
 //Jos on useita propseja, menee esim. huomio,
-const CustomerAdd = ({setlisäystila, setIsPositive, setShowMessage, setMessage}) => {
+const CustomerEdit = ({setmuokkaustila, setIsPositive, setShowMessage, setMessage, muokattavaCustomer}) => {
 
     //komponentin tilan määritys
 
-const [newCustomerId, setNewCustomerId] = useState('')
-const [newCompanyName, setNewCompanyName] = useState('')
-const [newContactName, setNewContactName] = useState('')
-const [newContactTitle, setNewContactTitle] = useState('')
+    const [newCustomerId, setNewCustomerId] = useState(muokattavaCustomer.customerId)
+    const [newCompanyName, setNewCompanyName] = useState(muokattavaCustomer.companyName)
+    const [newContactName, setNewContactName] = useState(muokattavaCustomer.contactName)
+    const [newContactTitle, setNewContactTitle] = useState(muokattavaCustomer.contactTitle)
 
-const [newCountry, setNewCountry] = useState('')
-const [newAddress, setNewAddress] = useState('')
-const [newCity, setNewCity] = useState('')
+    const [newCountry, setNewCountry] = useState(muokattavaCustomer.country)
+    const [newAddress, setNewAddress] = useState(muokattavaCustomer.address)
+    const [newCity, setNewCity] = useState(muokattavaCustomer.city)
 
-const [newPostalCode, setNewPostalCode] = useState('')
-const [newPhone, setNewPhone] = useState('')
-const [newFax, setNewFax] = useState('')
+    const [newPostalCode, setNewPostalCode] = useState(muokattavaCustomer.postalCode)
+    const [newPhone, setNewPhone] = useState(muokattavaCustomer.phone)
+    const [newFax, setNewFax] = useState(muokattavaCustomer.fax)
+
 
     const handleSubmit = (event) => {
         event.preventDefault()
         var newCustomer = {
-            customerId: newCustomerId.toUpperCase(),
+            customerId: newCustomerId,
             companyName: newCompanyName,
             contactName: newContactName,
             contactTitle: newContactTitle,
@@ -37,10 +38,10 @@ const [newFax, setNewFax] = useState('')
             phone: newPhone,
             fax: newFax
     }
-    CustomerService.create(newCustomer)
+    CustomerService.update(newCustomer)
     .then(response => {
         if (response.status === 200) {
-         setMessage("Added new Customer: " + newCustomer.companyName)
+         setMessage("Edited Customer: " + newCustomer.companyName)
          setIsPositive(true)
          setShowMessage(true)
 
@@ -48,7 +49,7 @@ const [newFax, setNewFax] = useState('')
             setShowMessage(false)
            }, 5000)
 
-         setlisäystila(false)
+         setmuokkaustila(false)
         
      }   
   
@@ -68,14 +69,13 @@ const [newFax, setNewFax] = useState('')
 
 
   return (
-<div id="addNew">
-    <h2>Customer Add</h2>
+<div id="edit">
+    <h2>Customer Edit</h2>
 
     <form onSubmit={handleSubmit}>
 
     <div>
-                <input type="text" value={newCustomerId} placeholder="ID with 5 capital letters" maxLength="5" minLength="5"
-                    onChange={({ target }) => setNewCustomerId(target.value)} required />
+                <input type="text" value={newCustomerId} disabled />
             </div>
             <div>
                 <input type="text" value={newCompanyName} placeholder="Company name"
@@ -89,7 +89,10 @@ const [newFax, setNewFax] = useState('')
                 <input type="text" value={newContactTitle} placeholder="Contact title"
                     onChange={({ target }) => setNewContactTitle(target.value)} />
             </div>
-
+            <div>
+                <input type="text" value={newCountry} placeholder="Country"
+                    onChange={({ target }) => setNewCountry(target.value)} />
+            </div>
             <div>
                 <input type="text" value={newAddress} placeholder="Address"
                     onChange={({ target }) => setNewAddress(target.value)} />
@@ -97,10 +100,6 @@ const [newFax, setNewFax] = useState('')
             <div>
                 <input type="text" value={newCity} placeholder="City"
                     onChange={({ target }) => setNewCity(target.value)} />
-            </div>
-            <div>
-                <input type="text" value={newCountry} placeholder="Country"
-                    onChange={({ target }) => setNewCountry(target.value)} />
             </div>
             <div>
                 <input type="text" value={newPostalCode} placeholder="Postal code"
@@ -115,9 +114,10 @@ const [newFax, setNewFax] = useState('')
                     onChange={({ target }) => setNewFax(target.value)} />
             </div>
          
+         
 
         <input type='submit' value='save' />
-        <input type='button' value='back' onClick={() => setlisäystila(false)} />
+        <input type='button' value='back' onClick={() => setmuokkaustila(false)} />
 
     </form>
 
@@ -129,4 +129,4 @@ const [newFax, setNewFax] = useState('')
     )
   }
 
-export default CustomerAdd
+export default CustomerEdit

@@ -4,19 +4,61 @@ import CustomerService from './services/Customer'
 
 //props  voi olla props tai jos tietää nimen, niin esim. tässä huomio. 
 //Jos on useita propseja, menee esim. huomio,
-const Customer = ({customer}) => {
+const Customer = ({customer, editCustomer, setIsPositive, setShowMessage, setMessage, reload, reloadNow}) => {
 
     //Komponentin tilan määritys
  
     const [showDetails, setshowDetails] = useState(false)
 
-    const deleteCustomer = (customer) =>{
-        if(window.confirm(`Remove Customer ${customer.companyName}`))
+    const deleteCustomer = (customer) => {
+        let vastaus=window.confirm(`Remove Customer ${customer.companyName}`)
 
+        if (vastaus === true){   
         CustomerService.remove(customer.customerId)
-        .then()
-    }
+        .then(res => {
+        if (res.status === 200) {
+            setMessage('Succesfully remove customer) ${customer.companyName}')
+            setIsPositive(true)
+            setShowMessage(true)
+            window.scrollBy(0, -10000) // Scrollataan ylös jotta nähdään alert :)
 
+             // Ilmoituksen piilotus
+            setTimeout(() => {
+            setShowMessage(false)},
+            5000
+
+            )
+            reloadNow(!reload)
+
+            }
+            
+                }
+            )
+            .catch(error => {
+                setMessage(error)
+                setIsPositive(false)
+                setShowMessage(true)
+        
+                setTimeout(() => {
+                  setShowMessage(false)
+                 }, 6000)
+              })
+
+    }// Jos poisto halutaankin perua
+    else {
+        setMessage('Poisto peruttu onnistuneesti.')
+            setIsPositive(true)
+            setShowMessage(true)
+            window.scrollBy(0, -10000) // Scrollataan ylös jotta nähdään alert :)
+    
+            // Ilmoituksen piilotus
+            setTimeout(() => {
+            setShowMessage(false)},
+            5000
+
+            )
+        }
+    }
 
   return (
     <div className='customerDiv'>
@@ -29,8 +71,8 @@ const Customer = ({customer}) => {
 
    <h3>{customer.companyName}</h3>
 
-   <button onClick={() => deleteCustomer(customer)}>Delete</button>  
-   <button>Edit</button> 
+   <button onClick={() => deleteCustomer(customer)}>Delete</button>
+   <button onClick={() => editCustomer(customer)}>Edit</button>
 
                 <table>
                     <thead>
