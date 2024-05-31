@@ -1,14 +1,10 @@
 import './App.css'
 import React, {useState} from 'react'
 import CustomerService from './services/Customer'
-import Message from './Message'
 
+const CustomerEdit = ({setMuokkaustila, setIsPositive, setMessage, setShowMessage, muokattavaCustomer}) => {
 
-//props  voi olla props tai jos tietää nimen, niin esim. tässä huomio. 
-//Jos on useita propseja, menee esim. huomio,
-const CustomerEdit = ({setmuokkaustila, setIsPositive, setShowMessage, setMessage, muokattavaCustomer}) => {
-
-    //komponentin tilan määritys
+// Komponentin tilan määritys
 
     const [newCustomerId, setNewCustomerId] = useState(muokattavaCustomer.customerId)
     const [newCompanyName, setNewCompanyName] = useState(muokattavaCustomer.companyName)
@@ -24,61 +20,62 @@ const CustomerEdit = ({setmuokkaustila, setIsPositive, setShowMessage, setMessag
     const [newFax, setNewFax] = useState(muokattavaCustomer.fax)
 
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        var newCustomer = {
-            customerId: newCustomerId,
-            companyName: newCompanyName,
-            contactName: newContactName,
-            contactTitle: newContactTitle,
-            country: newCountry,
-            address: newAddress,
-            city: newCity,
-            postalCode: newPostalCode,
-            phone: newPhone,
-            fax: newFax
+// onSubmit tapahtumankäsittelijä funktio
+const handleSubmit = (event) => {
+      event.preventDefault()
+      var newCustomer = {
+        customerId: newCustomerId,
+        companyName: newCompanyName,
+        contactName: newContactName,
+        contactTitle: newContactTitle,
+        country: newCountry,
+        address: newAddress,
+        city: newCity,
+        postalCode: newPostalCode,
+        phone: newPhone,
+        fax: newFax
     }
+    
     CustomerService.update(newCustomer)
     .then(response => {
-        if (response.status === 200) {
-         setMessage("Edited Customer: " + newCustomer.companyName)
-         setIsPositive(true)
-         setShowMessage(true)
+      if (response.status === 200) {
+       setMessage("Edited Customer: " + newCustomer.companyName)
+       setIsPositive(true)
+       setShowMessage(true)
+      
+       setTimeout(() => {
+        setShowMessage(false)
+       }, 5000)
 
-         setTimeout(() => {
-            setShowMessage(false)
-           }, 5000)
+       setMuokkaustila(false)
+    }
 
-         setmuokkaustila(false)
-        
-     }   
-  
-        })
-        .catch(error => {
-            setMessage(error)
-            setIsPositive(false)
-            setShowMessage(true)
-    
-            setTimeout(() => {
-              setShowMessage(false)
-             }, 6000)
-         
-        })
-      }
+      })
+      .catch(error => {
+        setMessage(error)
+        setIsPositive(false)
+        setShowMessage(true)
 
+        setTimeout(() => {
+          setShowMessage(false)
+         }, 6000)
+      })
+    }
 
 
   return (
-<div id="edit">
-    <h2>Customer Edit</h2>
+    <div id="edit">
+       <h2>Customer Edit</h2>
 
-    <form onSubmit={handleSubmit}>
-
-    <div>
+       <form onSubmit={handleSubmit}>
+       <div>
                 <input type="text" value={newCustomerId} disabled />
             </div>
             <div>
-                <input type="text" value={newCompanyName} placeholder="Company name"
+                <label>Companyname</label>
+                </div>
+                <div>
+                <input type="text" value={newCompanyName}
                     onChange={({ target }) => setNewCompanyName(target.value)} required />
             </div>
             <div>
@@ -114,19 +111,12 @@ const CustomerEdit = ({setmuokkaustila, setIsPositive, setShowMessage, setMessag
                     onChange={({ target }) => setNewFax(target.value)} />
             </div>
          
-         
+         <input type='submit' value='save' />
+         <input type='button' value='back' onClick={() => setMuokkaustila(false)} />
+       </form>
 
-        <input type='submit' value='save' />
-        <input type='button' value='back' onClick={() => setmuokkaustila(false)} />
-
-    </form>
-
-
-<h2>Tämä on lisäys komponentti</h2>
-    
-   
-</div>
-    )
-  }
+    </div>
+  )
+}
 
 export default CustomerEdit

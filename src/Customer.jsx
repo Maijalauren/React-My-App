@@ -64,7 +64,7 @@ const Customer = ({customer, editCustomer, setIsPositive, setShowMessage, setMes
     <div className='customerDiv'>
 
    <h4 onClick={() => setshowDetails(!showDetails)}>
-        {customer.companyName}       
+        {customer.companyName} , {customer.country}      
     </h4>
 
    {showDetails && <div className="customerDetails">
